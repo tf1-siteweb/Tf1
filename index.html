@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Royal Scandal - TF1</title>
+    <title>Centre d'aide - TF1</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,190 +13,531 @@
 <body>
 
     <!-- ================= HEADER ================= -->
+
     <header class="header">
 
         <div class="header-container">
 
-            <a href="#" class="logo">TF1</a>
+            <a href="#" class="logo">
+                TF1
+            </a>
 
-            <nav class="navigation">
+            <nav class="main-navigation">
+
                 <a href="#">Accueil</a>
-                <a href="#">Direct</a>
-                <a href="#">Programmes</a>
-                <a href="#">Séries</a>
-                <a href="#">Films</a>
-                <a href="#">Actualités</a>
+
+                <a href="#">Articles</a>
+
+                <a href="#">Nous contacter</a>
+
             </nav>
 
-            <button class="menu-button" aria-label="Ouvrir le menu">
-                ☰
-            </button>
+            <div class="header-actions">
+
+                <a href="#" class="login-link">
+                    Se connecter
+                </a>
+
+                <button class="menu-button" id="menuButton">
+                    ☰
+                </button>
+
+            </div>
 
         </div>
 
     </header>
 
 
-    <!-- ================= MAIN ================= -->
-    <main>
+    <!-- ================= HERO ================= -->
 
-        <!-- HERO -->
-        <section class="hero">
+    <section class="hero">
 
-            <div class="hero-overlay"></div>
+        <div class="hero-container">
 
-            <div class="hero-content">
+            <h1>
+                Comment pouvons-nous vous aider ?
+            </h1>
 
-                <span class="category">
-                    DOCUMENTAIRE
+            <p>
+                Retrouvez les réponses aux questions les plus fréquentes.
+            </p>
+
+            <div class="search-container">
+
+                <span class="search-icon">
+                    🔍
                 </span>
 
-                <h1>Royal Scandal</h1>
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Rechercher un article..."
+                    autocomplete="off"
+                >
 
-                <p class="description">
-                    Découvrez les secrets, les histoires et les scandales
-                    qui ont marqué les familles royales.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="#" class="button button-primary">
-                        ▶ Regarder
-                    </a>
-
-                    <a href="#" class="button button-secondary">
-                        + Ajouter
-                    </a>
-
-                </div>
+                <button id="searchButton">
+                    Rechercher
+                </button>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- ================= CONTENT ================= -->
-        <section class="content">
+    <!-- ================= MAIN ================= -->
 
-            <div class="content-container">
+    <main class="main">
 
-                <div class="section-header">
-                    <h2>Royal Scandal</h2>
+        <div class="main-container">
 
-                    <p>
-                        Retrouvez tous les épisodes et contenus de votre programme.
-                    </p>
-                </div>
+            <div class="breadcrumb">
 
+                <a href="#">Centre d'aide</a>
 
-                <!-- EPISODES -->
-                <div class="episodes">
+                <span>›</span>
 
-                    <article class="episode">
-
-                        <div class="episode-image">
-                            <span>Épisode 1</span>
-                        </div>
-
-                        <div class="episode-content">
-
-                            <h3>Les secrets de la famille royale</h3>
-
-                            <p>
-                                Découvrez les événements qui ont marqué
-                                l'histoire de la monarchie.
-                            </p>
-
-                            <a href="#" class="episode-link">
-                                Regarder →
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="episode">
-
-                        <div class="episode-image episode-two">
-                            <span>Épisode 2</span>
-                        </div>
-
-                        <div class="episode-content">
-
-                            <h3>Les scandales qui ont fait la une</h3>
-
-                            <p>
-                                Retour sur les histoires qui ont passionné
-                                le public.
-                            </p>
-
-                            <a href="#" class="episode-link">
-                                Regarder →
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="episode">
-
-                        <div class="episode-image episode-three">
-                            <span>Épisode 3</span>
-                        </div>
-
-                        <div class="episode-content">
-
-                            <h3>Destins et révélations</h3>
-
-                            <p>
-                                Des révélations inédites sur les familles royales.
-                            </p>
-
-                            <a href="#" class="episode-link">
-                                Regarder →
-                            </a>
-
-                        </div>
-
-                    </article>
-
-                </div>
+                <span>Accueil</span>
 
             </div>
 
-        </section>
+
+            <!-- ================= CATEGORIES ================= -->
+
+            <section class="categories">
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        ▶
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            Regarder TF1
+                        </h2>
+
+                        <p>
+                            Retrouvez toutes les informations concernant
+                            le direct, les programmes et les vidéos.
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        📺
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            TF1+
+                        </h2>
+
+                        <p>
+                            Besoin d'aide concernant TF1+,
+                            votre compte ou vos programmes ?
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        👤
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            Mon compte
+                        </h2>
+
+                        <p>
+                            Gérez votre compte, vos informations personnelles
+                            et vos préférences.
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        💳
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            Abonnement
+                        </h2>
+
+                        <p>
+                            Découvrez les informations relatives aux offres,
+                            abonnements et paiements.
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        🔧
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            Problème technique
+                        </h2>
+
+                        <p>
+                            Une difficulté avec la vidéo, le son ou
+                            votre appareil ? Consultez nos solutions.
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="category-card">
+
+                    <div class="category-icon">
+                        ❓
+                    </div>
+
+                    <div class="category-content">
+
+                        <h2>
+                            Questions fréquentes
+                        </h2>
+
+                        <p>
+                            Consultez les réponses aux questions
+                            les plus fréquemment posées.
+                        </p>
+
+                        <a href="#">
+                            Voir les articles →
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= ARTICLES ================= -->
+
+            <section class="popular">
+
+                <div class="section-title">
+
+                    <h2>
+                        Articles populaires
+                    </h2>
+
+                    <a href="#">
+                        Voir tous les articles
+                    </a>
+
+                </div>
+
+
+                <div class="articles">
+
+                    <a href="#" class="article">
+
+                        <div>
+
+                            <h3>
+                                Comment regarder TF1 en direct ?
+                            </h3>
+
+                            <p>
+                                Découvrez comment accéder au direct
+                                depuis votre appareil.
+                            </p>
+
+                        </div>
+
+                        <span>›</span>
+
+                    </a>
+
+
+                    <a href="#" class="article">
+
+                        <div>
+
+                            <h3>
+                                Comment créer un compte ?
+                            </h3>
+
+                            <p>
+                                Toutes les étapes pour créer votre compte.
+                            </p>
+
+                        </div>
+
+                        <span>›</span>
+
+                    </a>
+
+
+                    <a href="#" class="article">
+
+                        <div>
+
+                            <h3>
+                                Je rencontre un problème avec une vidéo
+                            </h3>
+
+                            <p>
+                                Découvrez les solutions aux problèmes
+                                de lecture les plus courants.
+                            </p>
+
+                        </div>
+
+                        <span>›</span>
+
+                    </a>
+
+
+                    <a href="#" class="article">
+
+                        <div>
+
+                            <h3>
+                                Comment modifier mon adresse e-mail ?
+                            </h3>
+
+                            <p>
+                                Gérez les informations associées à votre compte.
+                            </p>
+
+                        </div>
+
+                        <span>›</span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
 
     </main>
 
 
     <!-- ================= FOOTER ================= -->
+
     <footer class="footer">
 
         <div class="footer-container">
 
-            <div class="footer-logo">
-                TF1
+            <div class="footer-column">
+
+                <div class="footer-logo">
+                    TF1
+                </div>
+
+                <p>
+                    Centre d'aide
+                </p>
+
             </div>
 
-            <div class="footer-links">
-                <a href="#">À propos</a>
-                <a href="#">Contact</a>
-                <a href="#">Confidentialité</a>
-                <a href="#">Conditions d'utilisation</a>
+
+            <div class="footer-column">
+
+                <h3>
+                    Assistance
+                </h3>
+
+                <a href="#">
+                    Centre d'aide
+                </a>
+
+                <a href="#">
+                    Nous contacter
+                </a>
+
+                <a href="#">
+                    Questions fréquentes
+                </a>
+
             </div>
 
-            <p>
-                © 2026 - Exemple de page web
-            </p>
+
+            <div class="footer-column">
+
+                <h3>
+                    Informations
+                </h3>
+
+                <a href="#">
+                    Conditions d'utilisation
+                </a>
+
+                <a href="#">
+                    Politique de confidentialité
+                </a>
+
+                <a href="#">
+                    Gestion des cookies
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 - Centre d'aide
 
         </div>
 
     </footer>
 
 
+    <!-- ================= CHATBOT ================= -->
+
+    <button
+        class="chat-button"
+        id="chatButton"
+        aria-label="Ouvrir l'assistance"
+    >
+        💬
+    </button>
+
+
+    <div
+        class="chat-window"
+        id="chatWindow"
+    >
+
+        <div class="chat-header">
+
+            <div>
+
+                <strong>
+                    Assistance
+                </strong>
+
+                <span>
+                    Nous sommes là pour vous aider
+                </span>
+
+            </div>
+
+            <button
+                id="closeChat"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="chat-messages"
+            id="chatMessages"
+        >
+
+            <div class="bot-message">
+
+                Bonjour 👋<br><br>
+
+                Comment puis-je vous aider ?
+
+            </div>
+
+            <div class="quick-actions">
+
+                <button data-question="Je ne peux pas regarder une vidéo">
+                    📺 Problème vidéo
+                </button>
+
+                <button data-question="Je souhaite créer un compte">
+                    👤 Mon compte
+                </button>
+
+                <button data-question="Je souhaite contacter le support">
+                    📩 Contacter le support
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <form
+            class="chat-input"
+            id="chatForm"
+        >
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Écrivez votre question..."
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                ➤
+            </button>
+
+        </form>
+
+    </div>
+
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
