@@ -1,546 +1,994 @@
+
 <!DOCTYPE html>
-<html lang="fr">
-
+<html dir="ltr" lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <!-- v27780 -->
 
-    <title>Centre d'aide - TF1+ Centre d'aide</title>
 
-    <link rel="stylesheet" href="style.css">
+  <title>Centre d&#39;aide de TF1+</title>
+
+  
+
+  <link rel="canonical" href="https://help.tf1.fr/hc/fr">
+<link rel="alternate" hreflang="fr" href="https://help.tf1.fr/hc/fr">
+<link rel="alternate" hreflang="x-default" href="https://help.tf1.fr/hc/fr">
+
+  <link rel="stylesheet" href="//static.zdassets.com/hc/assets/application-9dfad02370881fe3effa98d45c896d83.css" media="all" id="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="/hc/theming_assets/660978/360002517379/style.css?digest=37606369468818">
+
+  <link rel="icon" type="image/x-icon" href="file:///C:/Users/HP/Desktop/TF1.jpg">
+
+    
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<!-- Add styles to hide the fields necessary for the QR code functionality. -->
+<link rel="stylesheet" href="" />
+
+
+<script type="text/javascript" src="/hc/theming_assets/01JY1JRM5R5ETEK3DFZGGSVTC3"></script>
+
+
+<script src="/hc/theming_assets/01JZ7NAJ2ZFBPBX96C859CSP3N" defer></script>
+
+
+<script>
+  const allowedParams = [
+    "service_type",
+    "service_version",
+    "player_version",
+    "user_id",
+    "user_right",
+    "user_country",
+    "os_name",
+    "os_version",
+    "device_model",
+    "device_vendor",
+    "browser_name",
+    "browser_version",
+    "carrier_name",
+    "bot"
+  ];
+
+  async function getUserCountry() {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      if (!response.ok) throw new Error('API response not ok');
+      const data = await response.json();
+      return data.country_code;
+    } catch (error) {
+      console.warn('Erreur lors de la récupération du pays via IP:', error);
+      const locale = navigator.language || navigator.userLanguage || '';
+      if (locale) {
+        const parts = locale.split('-');
+        if (parts.length > 1) {
+          return parts[1].toUpperCase();
+        }
+      }
+      return null;
+    }
+  }
+
+  function hasGeolocConsent(Didomi) {
+    const status = Didomi.getUserStatus();
+    return status?.purposes?.consent?.enabled?.includes('geolocation_data');
+  }
+
+  function storeUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    for (const paramKey of allowedParams) {
+      const paramValue = urlParams.get(paramKey);
+      if (paramValue) {
+        sessionStorage.setItem(paramKey, paramValue);
+      }
+    }
+  }
+
+  async function storeUserCountryIfNeeded() {
+    if (sessionStorage.getItem('user_country')) {
+      return;
+    }
+
+    const country = await getUserCountry();
+    if (country) {
+      sessionStorage.setItem('user_country', country);
+    }
+  }
+
+  function clearGeolocationData() {
+    sessionStorage.removeItem('user_country');
+  }
+
+  function syncReferrer() {
+    if (sessionStorage.getItem('referrer')) {
+      return;
+    }
+
+    const referrer = document.referrer?.trim();
+    if (referrer) {
+      sessionStorage.setItem('referrer', referrer);
+      return;
+    }
+
+    const referrerLabels = {
+      tv: 'TV',
+      app: 'TF1 APP',
+      web: 'TF1 WEBSITE'
+    };
+    const serviceType = sessionStorage.getItem('service_type');
+    sessionStorage.setItem('referrer', referrerLabels[serviceType] ?? 'Accès direct / URL manuelle');
+  }
+
+  async function syncSessionStorageWithConsent(Didomi) {
+    storeUrlParams();
+
+    if (hasGeolocConsent(Didomi)) {
+      await storeUserCountryIfNeeded();
+    } else {
+      clearGeolocationData();
+    }
+
+    syncReferrer();
+    window.dispatchEvent(new Event('sessionStorageSynced'));
+  }
+
+  
+  window.didomiOnReady = window.didomiOnReady || [];
+
+  window.didomiOnReady.push(function(Didomi) {
+    syncSessionStorageWithConsent(Didomi);
+
+    Didomi.on('consent.changed', function() {
+      syncSessionStorageWithConsent(Didomi);
+    });
+  });
+ </script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const mainElement = document.querySelector('main')
+    if (mainElement) {
+      mainElement.setAttribute('aria-label', 'Contenu principal')
+    }
+  })
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const breadcrumbs = document.querySelector('.breadcrumbs')
+    if (breadcrumbs) {
+      const breadcrumbLinks = breadcrumbs.querySelectorAll('a')
+      if (breadcrumbLinks.length > 0) {
+        const firstLink = breadcrumbLinks[0]
+        firstLink.setAttribute('title', 'Tf1+ Page d\'accueil')
+      }
+      const lastBreadcrumb = breadcrumbs.querySelector('li:last-child')
+      if (lastBreadcrumb && !isRequestPage()) {
+        const span = document.createElement('span')
+        span.textContent = lastBreadcrumb.innerText
+        span.setAttribute('aria-current', 'page')
+        lastBreadcrumb.replaceChildren(span)
+      }
+    }
+  })
+
+  function isRequestPage() {
+    const url = window.location.pathname
+    return !!url.match(/\/requests\/\d+/)
+  }
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const globalSearchInputObserver = new MutationObserver(() => {
+      const searchInput = document.querySelector("#query")
+
+      if (searchInput) {
+        searchInput.removeAttribute('aria-label')
+        searchInput.setAttribute('title', 'Rechercher')
+        searchInput.setAttribute("role", "combobox")
+        searchInput.setAttribute("aria-autocomplete", "both")
+
+        const suggestionList = document.querySelector('zd-autocomplete')
+        if (suggestionList) {
+          globalSearchInputObserver.disconnect()
+
+          suggestionList.setAttribute("role", "listbox")
+          searchInput.setAttribute("aria-controls", suggestionList.id)
+
+          // watch suggestions changes for adding role attribute
+          const suggestionsObserver = new MutationObserver(() => {
+            const suggestions = suggestionList.querySelectorAll("zd-autocomplete-multibrand")
+            suggestions.forEach((suggestion, index) => {
+              suggestion.setAttribute("role", "option")
+            })
+          })
+
+          // set role attribute for initial suggestions
+          const initialSuggestions = suggestionList.querySelectorAll("zd-autocomplete-multibrand")
+          initialSuggestions.forEach((suggestion, index) => {
+            suggestion.setAttribute("role", "option")
+          })
+
+          suggestionsObserver.observe(suggestionList, { childList: true })
+        }
+      }
+    })
+
+    globalSearchInputObserver.observe(document.body, { childList: true, subtree: true })
+
+    // Add search button
+    const searchForm = document.querySelector(".search")
+    const searchIcon = document.querySelector(".search-icon")
+    if (searchForm && searchIcon) {
+      const searchButton = document.createElement("button")
+      searchButton.type = "submit"
+      searchButton.className = "search-button"
+      searchButton.setAttribute("aria-label", "Lancer la recherche")
+      searchButton.appendChild(searchIcon)
+      searchForm.appendChild(searchButton)
+    }
+  })
+</script>
+
+
+<script>
+  // Make document title dynamic
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlPath = window.location.pathname
+    if (urlPath === "/hc/fr") {
+      document.title = "Accueil - Centre d'aide de TF1+"
+    }
+  })
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const paginationNavElement = document.querySelector(".pagination")
+    if (paginationNavElement) {
+      paginationNavElement.setAttribute("role", "navigation")
+      paginationNavElement.setAttribute("aria-label", "Pagination")
+    }
+    
+    // Prev button
+    const prevPageLinkElement = document.querySelector(".pagination-prev-link")
+    if (prevPageLinkElement) {
+      prevPageLinkElement.setAttribute("aria-label", "Page précédente")
+    }
+
+    const prevPageTextElement = document.querySelector(".pagination-prev-text")
+    if (prevPageTextElement) {
+      prevPageTextElement.innerHTML = "Page précédente"
+    }
+
+    // Next button
+    const nextPageLinkElement = document.querySelector(".pagination-next-link")
+    if (nextPageLinkElement) {
+      nextPageLinkElement.setAttribute("aria-label", "Page suivante")
+    }
+
+    const nextPageTextElement = document.querySelector(".pagination-next-text")
+    if (nextPageTextElement) {
+      nextPageTextElement.innerHTML = "Page suivante"
+    }
+
+    // Last button
+    const lastPageLinkElement = document.querySelector(".pagination-last-link")
+    if (lastPageLinkElement) {
+      lastPageLinkElement.setAttribute("aria-label", "Dernière page")
+      lastPageLinkElement.setAttribute("title", "Dernière page")
+    }
+
+    const lastPageTextElement = document.querySelector(".pagination-last-text")
+    if (lastPageTextElement) {
+      lastPageTextElement.innerHTML = "Dernière page"
+    }
+
+    // First button
+    const firstPageLinkElement = document.querySelector(".pagination-first-link")
+    if (firstPageLinkElement) {
+      firstPageLinkElement.setAttribute("aria-label", "Première page")
+      firstPageLinkElement.setAttribute("title", "Première page")
+    }
+
+    const firstPageTextElement = document.querySelector(".pagination-first-text")
+    if (firstPageTextElement) {
+      firstPageTextElement.innerHTML = "Première page"
+    }
+  })
+</script>
+
+
+<script type="text/javascript">
+  // Configuration
+  const config = {
+      maxRetries: 50,
+      retryInterval: 100,
+      initDelay: 100,
+      debug: false // Set to false to disable all logs
+  };
+
+  // Logger functions with debug check
+  const logInfo = (message, ...args) => {
+      if (config.debug) {
+          console.log(message, ...args);
+      }
+  };
+
+  const logError = (message, error) => {
+      if (config.debug) {
+          console.error(message, error);
+      }
+  };
+
+  const logWarn = (message) => {
+      if (config.debug) {
+          console.warn(message);
+      }
+  };
+
+  // Didomi API checkers
+  const isDidomiLoaded = () => typeof window.Didomi !== 'undefined';
+  const canGetUserStatus = () => {
+      try {
+          window.Didomi.getUserStatus();
+          return true;
+      } catch (error) {
+          return false;
+      }
+  };
+
+  const isDidomiReady = () => isDidomiLoaded() && canGetUserStatus();
+
+  // Debug function to see user status
+  const debugUserStatus = (userStatus) => {
+      if (!config.debug) return;
+      
+      logInfo('=== DEBUG USER STATUS ===');
+      logInfo('Full user status:', userStatus);
+      logInfo('user_id:', userStatus.user_id);
+      logInfo('created:', userStatus.created);
+      logInfo('consent string:', userStatus.consent?.consentstring);
+      logInfo('purposes enabled:', userStatus.purposes?.enabled);
+      logInfo('vendors enabled:', userStatus.vendors?.enabled);
+      logInfo('regulation:', userStatus.regulation);
+      logInfo('========================');
+  };
+
+  // Check if user has already made a choice (accept or decline)
+  const hasUserMadeChoice = (userStatus) => {
+      // Check 1: User has a valid user_id and created timestamp
+      const hasBasicInfo = userStatus.user_id && 
+                          userStatus.user_id !== '' && 
+                          userStatus.created;
+      
+      if (!hasBasicInfo) {
+          logInfo('No basic user info - should show notice');
+          return false;
+      }
+      
+      // Check 2: User has a consent string (indicates interaction)
+      const hasConsentString = userStatus.consent && 
+                              userStatus.consent.consentstring && 
+                              userStatus.consent.consentstring !== '';
+      
+      if (hasConsentString) {
+          logInfo('User has consent string - choice already made');
+          return true;
+      }
+      
+      // Check 3: Check if purposes have been explicitly set
+      const hasPurposesDecision = userStatus.purposes && 
+                                userStatus.purposes.enabled && 
+                                Array.isArray(userStatus.purposes.enabled);
+      
+      if (hasPurposesDecision) {
+          logInfo('User has purposes decision - choice already made');
+          return true;
+      }
+      
+      // Check 4: Check if vendors have been explicitly set
+      const hasVendorsDecision = userStatus.vendors && 
+                                userStatus.vendors.enabled && 
+                                Array.isArray(userStatus.vendors.enabled);
+      
+      if (hasVendorsDecision) {
+          logInfo('User has vendors decision - choice already made');
+          return true;
+      }
+      
+      logInfo('No evidence of user choice - should show notice');
+      return false;
+  };
+
+  // Alternative check using Didomi helper methods
+  const hasUserMadeChoiceAlternative = () => {
+      try {
+          // Check if Didomi considers the user has given consent
+          const hasConsent = window.Didomi.isConsentRequired() === false;
+          
+          if (hasConsent) {
+              logInfo('Didomi says consent not required - choice made');
+              return true;
+          }
+          
+          // Check if notice is currently configured to be shown
+          const shouldShowNotice = window.Didomi.shouldConsentBeCollected();
+          
+          if (!shouldShowNotice) {
+              logInfo('Didomi says consent should not be collected - choice made');
+              return true;
+          }
+          
+          return false;
+      } catch (error) {
+          logError('Error in alternative check:', error);
+          return false;
+      }
+  };
+
+  // Main condition check
+  const shouldShowNotice = (userStatus) => {
+      debugUserStatus(userStatus);
+      
+      // Primary check: has user made a choice?
+      if (hasUserMadeChoice(userStatus)) {
+          logInfo('User has already made a choice - notice will not show');
+          return false;
+      }
+      
+      // Secondary check using Didomi methods
+      if (hasUserMadeChoiceAlternative()) {
+          logInfo('Didomi alternative check says choice made - notice will not show');
+          return false;
+      }
+      
+      logInfo('No previous choice detected - notice should show');
+      return true;
+  };
+
+  // Safe operations
+  const safeShowNotice = () => {
+      try {
+          window.Didomi.notice.show();
+          logInfo('Didomi consent notice displayed');
+          
+          // Optional tracking
+          if (typeof gtag !== 'undefined') {
+              gtag('event', 'didomi_notice_shown', {
+                  event_category: 'GDPR',
+                  event_label: 'First Visit'
+              });
+          }
+          return true;
+      } catch (error) {
+          logError('Error showing notice:', error);
+          return false;
+      }
+  };
+
+  const safeGetUserStatus = () => {
+      try {
+          return window.Didomi.getUserStatus();
+      } catch (error) {
+          logError('Error getting user status:', error);
+          return null;
+      }
+  };
+
+  // Main logic
+  const checkAndShowNotice = () => {
+      logInfo('=== CHECKING IF NOTICE SHOULD SHOW ===');
+      
+      const userStatus = safeGetUserStatus();
+      
+      if (!userStatus) {
+          logError('Could not retrieve user status');
+          return;
+      }
+      
+      if (shouldShowNotice(userStatus)) {
+          logInfo('Conditions met - showing notice');
+          safeShowNotice();
+      } else {
+          logInfo('User has already made a choice - notice will not show');
+      }
+  };
+
+  const handleDidomiReady = () => {
+      logInfo('Didomi is ready, checking user status...');
+      setTimeout(checkAndShowNotice, config.initDelay);
+  };
+
+  // Event setup
+  const setupDidomiEventListener = () => {
+      window.didomiEventListeners = window.didomiEventListeners || [];
+      window.didomiEventListeners.push({
+          event: 'ready',
+          listener: handleDidomiReady
+      });
+  };
+
+  // Retry mechanism
+  const createRetryChecker = () => {
+      let retryCount = 0;
+      let timeoutId = null;
+      
+      const cleanup = () => {
+          if (timeoutId) {
+              clearTimeout(timeoutId);
+              timeoutId = null;
+          }
+          retryCount = 0;
+      };
+      
+      const check = () => {
+          if (retryCount >= config.maxRetries) {
+              logWarn('Timeout: Didomi could not be initialized');
+              cleanup();
+              return;
+          }
+          
+          if (isDidomiReady()) {
+              cleanup();
+              handleDidomiReady();
+          } else {
+              retryCount++;
+              timeoutId = setTimeout(check, config.retryInterval);
+          }
+      };
+      
+      return { check, cleanup };
+  };
+
+  // Main initialization
+  const initialize = () => {
+      if (isDidomiReady()) {
+          logInfo('Didomi already ready');
+          handleDidomiReady();
+          return;
+      }
+      
+      const retryChecker = createRetryChecker();
+      
+      setupDidomiEventListener();
+      
+      setTimeout(() => {
+          if (!isDidomiReady()) {
+              logInfo('Starting fallback polling...');
+              retryChecker.check();
+          }
+      }, 1000);
+      
+      window.addEventListener('beforeunload', retryChecker.cleanup);
+  };
+
+  // Expose functions for debugging and config control
+  window.DidomiDebug = {
+      // Toggle debug mode
+      enableDebug: () => { config.debug = true; },
+      disableDebug: () => { config.debug = false; },
+      isDebugEnabled: () => config.debug,
+      
+      // Debug functions
+      checkAndShowNotice,
+      getUserStatus: safeGetUserStatus,
+      shouldShowNotice: (userStatus) => shouldShowNotice(userStatus || safeGetUserStatus()),
+      hasUserMadeChoice: (userStatus) => hasUserMadeChoice(userStatus || safeGetUserStatus()),
+      
+      // Force functions (always work regardless of debug mode)
+      forceShowNotice: () => {
+          try {
+              window.Didomi.notice.show();
+              console.log('Notice forced to display');
+              return true;
+          } catch (error) {
+              console.error('Error forcing notice display:', error);
+              return false;
+          }
+      }
+  };
+
+  // Start
+  document.addEventListener('DOMContentLoaded', initialize);
+</script>
+
+
+  
 </head>
+<body class="">
+  
+  
+  
 
-<body>
-
-    <!-- ================= HEADER ================= -->
-
-    <header class="header">
-
-        <div class="header-container">
-
-            <a href="#" class="logo">
-                TF1+
-            </a>
-
-            <nav class="main-navigation">
-
-                <a href="#">Accueil</a>
-
-                <a href="#">Articles</a>
-
-                <a href="#">Nous contacter</a>
-
-            </nav>
-
-            <div class="header-actions">
-
-                <a href="#" class="login-link">
-                    Se connecter
-                </a>
-
-                <button class="menu-button" id="menuButton">
-                    ☰
-                </button>
-
-            </div>
-
-        </div>
-
-    </header>
+  <header class="header" role="banner" aria-label="En-tête principal">
+  <nav role="navigation" aria-label="Accès rapide">
+    <ul>
+      <li><a class="skip-navigation" href="#query">Aller à la recherche</a></li>
+      
+      
+      <li><a class="skip-navigation" href="#main-content">Aller au contenu principal</a></li>
+      <li><a class="skip-navigation" href="#footer">Aller au pied de page</a></li>
+    </ul>
+  </nav>
+  <div class="logo">
+    <a href="/hc/fr" title="Retour à l'accueil du centre d'aide TF1+">
+      <img src="/hc/theming_assets/01J49KYX3A2KH97NA0E30KXDVK" alt="Retour à l’accueil du centre d’aide TF1+" />
+      
+        <span aria-hidden="true">Centre d&#39;aide de TF1+</span>
+      
+    </a>
+  </div>
+  
+  
+</header>
+<script type="text/javascript" id="statuspage-widget" statuspage="https://etf1.statuspage.io/" src="/hc/theming_assets/01J49KYW61C0WDP5AM9870HRZS"></script>
 
 
-    <!-- ================= HERO ================= -->
 
-    <section class="hero">
 
-        <div class="hero-container">
 
-            <h1>
-                Vous n'avez pas trouvé la réponse à votre question, vous avez besoin d'une assistance technique ou d'un renseignement sur nos chaînes ou programmes télévisés ?
-                                  Vous avez la possibilité de contacter notre service client disponible dans le chatbot TF1+  Centre D'aide
-                
-                Comment pouvons-nous vous aider ?
-            </h1>
 
-            <p>
-                Retrouvez les réponses aux questions les plus fréquentes.
-            </p>
+  <main role="main">
+    <h1 class="visibility-hidden">Centre d&#39;aide de TF1+</h1>
 
-            <div class="search-container">
+<section class="section hero" class="container">
+  <div class="hero-inner">
+    <h2 class="visibility-hidden">Recherche</h2>
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" viewBox="0 0 12 12"
+      class="search-icon" aria-hidden="true">
+      <circle cx="4.5" cy="4.5" r="4" fill="none" stroke="currentColor" />
+      <path stroke="currentColor" stroke-linecap="round" d="M11 11L7.5 7.5" />
+    </svg>
+    <form role="search" class="search search-full" data-search="" data-instant="true" autocomplete="off" action="/hc/fr/search" accept-charset="UTF-8" method="get"><input type="hidden" name="utf8" value="&#x2713;" autocomplete="off" /><input type="search" name="query" id="query" placeholder="Rechercher" autocomplete="off" aria-label="Rechercher" /></form>
+  </div>
+</section>
 
-                <span class="search-icon">
-                    🔍
-                </span>
-
-                <input
-                    type="search"
-                    id="searchInput"
-                    placeholder="Rechercher un article..."
-                    autocomplete="off"
-                >
-
-                <button id="searchButton">
-                    Rechercher
-                </button>
-
-            </div>
-
-        </div>
-
+<div class="container">
+  <section id="main-content" class="section knowledge-base">
+    <h2 class="visibility-hidden">Catégories</h2>
+    <section class="categories blocks">
+      <ul class="blocks-list">
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/16165594848018-TF1' class="blocks-item-link">
+            <span class="blocks-item-title">TF1+</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/16165585916434-MON-COMPTE-UNIQUE-TF1' class="blocks-item-link">
+            <span class="blocks-item-title">MON COMPTE UNIQUE TF1</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/16165585857426-NOS-OFFRES-PAYANTES' class="blocks-item-link">
+            <span class="blocks-item-title">NOS OFFRES PAYANTES</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/16165571832594-PROBL%C3%88ME-TECHNIQUE' class="blocks-item-link">
+            <span class="blocks-item-title">PROBLÈME TECHNIQUE</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/16165595070098-GESTION-DES-DONN%C3%89ES-PERSONNELLES' class="blocks-item-link">
+            <span class="blocks-item-title">GESTION DES DONNÉES PERSONNELLES</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="blocks-item">
+          <a href='/hc/fr/categories/4403627622418-VOS-PROGRAMMES-CHA%C3%8ENES-TV' class="blocks-item-link">
+            <span class="blocks-item-title">VOS PROGRAMMES &amp; CHAÎNES TV</span>
+            <span class="blocks-item-description"></span>
+          </a>
+        </li>
+        
+        
+      </ul>
+      
     </section>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="main">
-
-        <div class="main-container">
-
-            <div class="breadcrumb">
-
-                <a href="#">Centre d'aide</a>
-
-                <span>›</span>
-
-                <span>Accueil</span>
-
-            </div>
-
-
-            <!-- ================= CATEGORIES ================= -->
-
-            <section class="categories">
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        ▶
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            Regarder TF1
-                        </h2>
-
-                        <p>
-                            Retrouvez toutes les informations concernant
-                            le direct, les programmes et les vidéos.
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        📺
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            TF1+
-                        </h2>
-
-                        <p>
-                            Besoin d'aide concernant TF1+,
-                            votre compte ou vos programmes ?
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        👤
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            Mon compte
-                        </h2>
-
-                        <p>
-                            Gérez votre compte, vos informations personnelles
-                            et vos préférences.
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        💳
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            Abonnement
-                        </h2>
-
-                        <p>
-                            Découvrez les informations relatives aux offres,
-                            abonnements et paiements.
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        🔧
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            Problème technique
-                        </h2>
-
-                        <p>
-                            Une difficulté avec la vidéo, le son ou
-                            votre appareil ? Consultez nos solutions.
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <article class="category-card">
-
-                    <div class="category-icon">
-                        ❓
-                    </div>
-
-                    <div class="category-content">
-
-                        <h2>
-                            Questions fréquentes
-                        </h2>
-
-                        <p>
-                            Consultez les réponses aux questions
-                            les plus fréquemment posées.
-                        </p>
-
-                        <a href="#">
-                            Voir les articles →
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </section>
-
-
-            <!-- ================= ARTICLES ================= -->
-
-            <section class="popular">
-
-                <div class="section-title">
-
-                    <h2>
-                        Articles populaires
-                    </h2>
-
-                    <a href="#">
-                        Voir tous les articles
-                    </a>
-
-                </div>
-
-
-                <div class="articles">
-
-                    <a href="#" class="article">
-
-                        <div>
-
-                            <h3>
-                                Comment regarder TF1 en direct ?
-                            </h3>
-
-                            <p>
-                                Découvrez comment accéder au direct
-                                depuis votre appareil.
-                            </p>
-
-                        </div>
-
-                        <span>›</span>
-
-                    </a>
-
-
-                    <a href="#" class="article">
-
-                        <div>
-
-                            <h3>
-                                Comment créer un compte ?
-                            </h3>
-
-                            <p>
-                                Toutes les étapes pour créer votre compte.
-                            </p>
-
-                        </div>
-
-                        <span>›</span>
-
-                    </a>
-
-
-                    <a href="#" class="article">
-
-                        <div>
-
-                            <h3>
-                                Je rencontre un problème avec une vidéo
-                            </h3>
-
-                            <p>
-                                Découvrez les solutions aux problèmes
-                                de lecture les plus courants.
-                            </p>
-
-                        </div>
-
-                        <span>›</span>
-
-                    </a>
-
-
-                    <a href="#" class="article">
-
-                        <div>
-
-                            <h3>
-                                Comment modifier mon adresse e-mail ?
-                            </h3>
-
-                            <p>
-                                Gérez les informations associées à votre compte.
-                            </p>
-
-                        </div>
-
-                        <span>›</span>
-
-                    </a>
-
-                </div>
-
-            </section>
-
-        </div>
-
-    </main>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="footer">
-
-        <div class="footer-container">
-
-            <div class="footer-column">
-
-                <div class="footer-logo">
-                    TF1
-                </div>
-
-                <p>
-                    Centre d'aide
-                </p>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Assistance
-                </h3>
-
-                <a href="#">
-                    Centre d'aide
-                </a>
-
-                <a href="#">
-                    Nous contacter
-                </a>
-
-                <a href="#">
-                    Questions fréquentes
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Informations
-                </h3>
-
-                <a href="#">
-                    Conditions d'utilisation
-                </a>
-
-                <a href="#">
-                    Politique de confidentialité
-                </a>
-
-                <a href="#">
-                    Gestion des cookies
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-            © 2026 - Centre d'aide
-
-        </div>
-
-    </footer>
-
-
-    <!-- ================= CHATBOT ================= -->
-
-    <button
-        class="chat-button"
-        id="chatButton"
-        aria-label="Ouvrir l'assistance"
-    >
-        💬
-    </button>
-
-
-    <div
-        class="chat-window"
-        id="chatWindow"
-    >
-
-        <div class="chat-header">
-
-            <div>
-
-                <strong>
-                    Assistance
-                </strong>
-
-                <span>
-                    Nous sommes là pour vous aider
-                </span>
-
-            </div>
-
-            <button
-                id="closeChat"
-                aria-label="Fermer"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div
-            class="chat-messages"
-            id="chatMessages"
-        >
-
-            <div class="bot-message">
-
-                Bonjour 👋<br><br>
-
-                Comment puis-je vous aider ?
-
-            </div>
-
-            <div class="quick-actions">
-
-                <button data-question="Je ne peux pas regarder une vidéo">
-                    📺 Problème vidéo
-                </button>
-
-                <button data-question="Je souhaite créer un compte">
-                    👤 Mon compte
-                </button>
-
-                <button data-question="Je souhaite contacter le support">
-                    📩 Contacter le support
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <form
-            class="chat-input"
-            id="chatForm"
-        >
-
-            <input
-                type="text"
-                id="chatInput"
-                placeholder="Écrivez votre question..."
-                autocomplete="off"
-            >
-
-            <button type="submit">
-                ➤
-            </button>
-
-        </form>
-
+    <p class="blocks-item" style="max-width:1160px ; margin-left:auto ; margin-right:auto ;">
+      <a href='https://mytf1.zendesk.com/hc/fr/requests/new' class="blocks-item-link"
+        style="padding-left=30px ;padding-right=30px">
+        <span class="blocks-item-title" style="font-weight:700;">Nous contacter</span>
+        <span class="blocks-item-description">Vous n'avez pas trouvé la réponse à votre question dans notre Centre
+          d'Aide, vous avez besoin d'une assistance technique ou d'un renseignement sur nos chaînes ou programmes
+          télévisés ? <br>Vous avez la possibilité de contacter notre service client. </span>
+      </a>
+    </p>
+    
+    <section class="articles">
+      <h2>Articles à la une</h2>
+      <ul class="article-list promoted-articles">
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/16165597054994-Qu-est-ce-que-TF1">
+            Qu&#39;est ce que TF1+ ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/36520161200402-TF1-sur-Netflix">
+            TF1+ sur Netflix
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/33135191663890-Ai-je-la-possibilit%C3%A9-de-visionner-mes-programmes-hors-connexion-internet">
+            Ai-je la possibilité de visionner mes programmes hors connexion internet ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/15715388352786-Comment-acc%C3%A9der-%C3%A0-TF1">
+            Comment accéder à TF1+ ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/19337708703634-La-plateforme-TF1-est-elle-disponible-%C3%A0-l-International">
+            La plateforme TF1+ est-elle disponible à l&#39;International ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/31065530854674-Puis-je-visionner-d-autres-cha%C3%AEnes-TV-que-celles-du-Groupe-TF1-sur-la-plateforme-TF1">
+            Puis-je visionner d&#39;autres chaînes TV que celles du Groupe TF1 sur la plateforme TF1+ ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/19124535474194-Comment-cr%C3%A9er-un-profil">
+            Comment créer un profil ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/31617226444178-Comment-m-assurer-que-mes-enfants-n-ach%C3%A8teront-visionneront-pas-des-contenus-inappropri%C3%A9s-avec-mon-compte">
+            Comment m’assurer que mes enfants n’achèteront/visionneront pas des contenus inappropriés, avec mon compte ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/29316671591570-Qu-est-ce-que-le-compte-unique-TF1-et-comment-fonctionne-t-il">
+            Qu&#39;est-ce que le compte unique &quot;TF1&quot; et comment fonctionne-t-il ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/18346083183378-Puis-je-me-connecter-%C3%A0-TF1-depuis-ma-TV-Connect%C3%A9e-ou-ma-Box-Internet">
+            Puis-je me connecter à TF1+ depuis ma TV Connectée ou ma Box Internet ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/30251213874066-Quelles-sont-les-offres-%C3%A0-la-carte-disponibles">
+            Quelles sont les offres &quot;à la carte&quot; disponibles ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/30253929424914-Qu-est-ce-que-l-offre-Sans-Pub-%C3%A0-la-carte">
+            Qu&#39;est-ce que l&#39;offre &quot;Sans Pub à la carte&quot; ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/37890926170514--Nouveaux-horaires-pour-la-cha%C3%AEne-live-Secret-Story-%C3%80-partir-du-7-ao%C3%BBt">
+            📅 Nouveaux horaires pour la chaîne live Secret Story – À partir du 7 août
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/16165589142674-Qu-est-ce-que-l-offre-Premium-de-TF1">
+            Qu&#39;est ce que l&#39;offre Premium de TF1+ ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17346671831954-Comment-conna%C3%AEtre-la-date-de-diffusion-d-un-programme-d-une-s%C3%A9rie-sur-les-cha%C3%AEnes-du-Groupe-TF1">
+            Comment connaître la date de diffusion d&#39;un programme / d&#39;une série sur les chaînes du Groupe TF1 ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17346597127314-Comment-assister-%C3%A0-une-%C3%A9mission-sur-TF1">
+            Comment assister à une émission sur TF1 ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17367768875026-Comment-faire-part-d-une-remarque-ou-d-une-observation-concernant-un-sujet-diffus%C3%A9-dans-les-journaux-t%C3%A9l%C3%A9vis%C3%A9s-de-TF1-ou-LCI">
+            Comment faire part d&#39;une remarque ou d&#39;une observation concernant un sujet diffusé dans les journaux télévisés de TF1 ou LCI ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17476710773394-Je-rencontre-des-difficult%C3%A9s-de-r%C3%A9ception-des-cha%C3%AEnes-du-Groupe-TF1-via-une-r%C3%A9ception-hertzienne-que-faire">
+            Je rencontre des difficultés de réception des chaînes du Groupe TF1 via une réception hertzienne, que faire ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17477193922834-J-ai-jou%C3%A9-%C3%A0-un-jeu-comment-demander-le-remboursement-de-mes-participations">
+            J’ai joué à un jeu, comment demander le remboursement de mes participations ?
+
+            
+          </a>
+        </li>
+        
+        <li class="promoted-articles-item">
+          <a href="/hc/fr/articles/17477478677650-Comment-postuler-%C3%A0-une-offre-de-stage-d-emploi-au-sein-du-Groupe-TF1">
+            Comment postuler à une offre de stage, d&#39;emploi au sein du Groupe TF1 ?
+
+            
+          </a>
+        </li>
+        
+      </ul>
+    </section>
+    
+  </section>
+  
+
+  <section class="section home-section activity">
+    
+  </section>
+</div>
+
+  </main>
+
+  <footer id="footer" class="footer" role="contentinfo" aria-label="Pied de page">
+  <div class="footer-inner">
+    <nav class="footer-nav" aria-label="Navigation pied de page">
+      <ul class="footer-links-list">
+        <li>
+          <a href="/hc/fr" aria-label="Retour à l'accueil du centre d'aide de TF1+">
+            Accueil Centre d&#39;aide de TF1+
+          </a>
+        </li>
+        <li>
+          <a href="/hc/fr/requests/new" aria-label="Nous contacter">
+            Nous contacter
+          </a>
+        </li>
+        <li>
+          <a href="https://www.tf1.fr/" aria-label="Site TF1+">
+            Site TF1+
+          </a>
+        </li>
+        <li>
+         <a href="https://photos.tf1.fr/0/0/ppdcp-tf1-tfoumax-30-juin-2025-02c497-b84106-0@1x.pdf" aria-label="Politique de protection des données">
+           Politique de protection des données
+          </a>
+        </li>
+        <li>
+          <a href="https://photos.tf1.fr/0/0/politique-cookies-tf1-tfoumax_-30-juin-2025-f380e0-1fe17e-0@1x.pdf" aria-label="Politique cookies">
+            Politique cookies
+          </a>
+        </li>
+        <li>
+      		<a href="javascript:Didomi.preferences.show()" aria-label="Paramétrer vos choix">
+            Paramétrer vos choix
+          </a>
+        </li>
+
+        
+      </ul>
+    </nav>
+    <div class="footer-language-selector">
+      
     </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname.replace(/\/$/, '')
+    const links = document.querySelectorAll(".footer-links a")
+
+    links.forEach(link => {
+      const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '')
+
+      if (linkPath === currentPath) {
+        link.setAttribute("aria-current", "page")
+      } else {
+        link.removeAttribute("aria-current")
+      }
+    })
+  })
+</script>
 
 
-    <script src="script.js"></script>
 
+  <!-- / -->
+
+  
+  <script src="//static.zdassets.com/hc/assets/fr.845f0032fd747b9a19d7.js"></script>
+  
+
+  <script type="text/javascript">
+  /*
+
+    Greetings sourcecode lurker!
+
+    This is for internal Zendesk and legacy usage,
+    we don't support or guarantee any of these values
+    so please don't build stuff on top of them.
+
+  */
+
+  HelpCenter = {};
+  HelpCenter.account = {"subdomain":"tfoumax","environment":"production","name":"TF1 GROUPE"};
+  HelpCenter.user = {"identifier":"da39a3ee5e6b4b0d3255bfef95601890afd80709","email":null,"name":"","role":"anonymous","avatar_url":"https://assets.zendesk.com/hc/assets/default_avatar.png","is_admin":false,"external_id":null,"organizations":[],"groups":[]};
+  HelpCenter.internal = {"asset_url":"//static.zdassets.com/hc/assets/","web_widget_asset_composer_url":"https://static.zdassets.com/ekr/snippet.js","current_session":{"locale":"fr","csrf_token":null,"shared_csrf_token":null},"usage_tracking":{"event":"front_page_viewed","data":"BAh7BjoKX21ldGF7DDoPYWNjb3VudF9pZGkD8hUKOhNoZWxwX2NlbnRlcl9pZGwrCPuis9FTADoNYnJhbmRfaWRsKwiDedLRUwA6DHVzZXJfaWQwOhN1c2VyX3JvbGVfbmFtZUkiDkFOT05ZTU9VUwY6BkVUOgtsb2NhbGVJIgdmcgY7C1Q6GmFub255bW91c190cmFja2luZ19pZDA=--4fdbd76ddd60ec1b9b0aad5a15b91aae6fc13cf2","url":"https://help.tf1.fr/hc/activity"},"current_record_id":null,"current_record_url":null,"current_record_title":null,"current_text_direction":"ltr","current_brand_id":360002517379,"current_brand_name":"TF1+","current_brand_url":"https://mytf1.zendesk.com","current_brand_active":true,"current_path":null,"show_autocomplete_breadcrumbs":true,"user_info_changing_enabled":false,"has_user_profiles_enabled":false,"has_end_user_attachments":true,"user_aliases_enabled":false,"has_anonymous_kb_voting":true,"has_multi_language_help_center":true,"show_at_mentions":false,"embeddables_config":{"embeddables_web_widget":true,"embeddables_help_center_auth_enabled":true,"embeddables_connect_ipms":false},"answer_bot_subdomain":"static","gather_plan_state":"subscribed","has_article_verification":true,"has_gather":true,"has_ckeditor":false,"has_community_enabled":false,"has_community_badges":true,"has_community_post_content_tagging":false,"has_gather_content_tags":true,"has_guide_content_tags":true,"has_user_segments":true,"has_answer_bot_web_form_enabled":false,"has_garden_modals":false,"theming_cookie_key":"hc-da39a3ee5e6b4b0d3255bfef95601890afd80709-2-preview","is_preview":false,"has_search_settings_in_plan":true,"theming_api_version":2,"theming_settings":{"brand_color":"rgba(25, 55, 255, 1)","brand_text_color":"#FFFFFF","text_color":"#2F3941","link_color":"rgba(25, 55, 255, 1)","visited_link_color":"rgba(126, 0, 204, 1)","background_color":"rgba(255, 255, 255, 1)","heading_font":"Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif","text_font":"Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif","logo":"/hc/theming_assets/01J49KYX3A2KH97NA0E30KXDVK","show_brand_name":true,"favicon":"/hc/theming_assets/01J49KYXEVEXHRXH7HC6P2TJVD","homepage_background_image":"/hc/theming_assets/01JCGKE758AB1D3SYXR6TA15J8","community_background_image":"/hc/theming_assets/01JCGKE758AB1D3SYXR6TA15J8","community_image":"/hc/theming_assets/01JCGKE758AB1D3SYXR6TA15J8","instant_search":true,"scoped_kb_search":true,"scoped_community_search":false,"show_recent_activity":false,"show_articles_in_section":true,"show_article_author":false,"show_article_comments":false,"show_follow_article":false,"show_recently_viewed_articles":true,"show_related_articles":true,"show_article_sharing":false,"show_follow_section":false,"show_follow_post":false,"show_post_sharing":false,"show_follow_topic":false},"has_pci_credit_card_custom_field":true,"help_center_restricted":false,"is_assuming_someone_else":false,"flash_messages":[],"user_photo_editing_enabled":true,"user_preferred_locale":"fr","base_locale":"fr","login_url":"https://tfoumax.zendesk.com/access?locale=fr\u0026brand_id=360002517379\u0026return_to=https%3A%2F%2Fhelp.tf1.fr%2Fhc%2Ffr%3Futm_source%3Dchatgpt.com","has_alternate_templates":true,"has_custom_statuses_enabled":false,"has_hc_generative_answers_setting_enabled":true,"has_suggested_initial_questions_enabled":false,"has_contentful_eap":false,"has_contentful_eap_eligible":false,"has_pdf_ingestion_eap":true,"has_pdf_ingestion_eap_eligible":true,"has_guide_saas_management":false,"has_knowledge_category_translation_modal":false,"has_guide_service_catalog":true,"has_service_catalog_search_poc":true,"has_service_catalog_multibranding":false,"has_csat_reverse_2_scale_in_mobile":false,"has_unified_navigation":true,"has_unified_navigation_eap_access":true,"has_knowledge_locale_display_names":true,"has_csat_bet365_branding":false,"has_csat_flora":false,"has_csat_theming_integration_phase_1":false,"has_help_center_gen_search_follow_up_conversation":true,"chat_page_renderable":false,"version":"v27780","dev_mode":false};
+</script>
+
+  
+  
+  <script src="//static.zdassets.com/hc/assets/hc_enduser-f291072f8a4620f5400ac6b66b5885db.js"></script>
+  <script type="text/javascript" src="/hc/theming_assets/660978/360002517379/script.js?digest=37606369468818"></script>
+  
 </body>
-
 </html>
