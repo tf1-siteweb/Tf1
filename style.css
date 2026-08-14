@@ -4,21 +4,23 @@
 
 :root {
 
-    --blue: #1f73b7;
+    /* ===== COULEURS TF1+ ===== */
 
-    --blue-dark: #144a75;
+    --blue: #1717e8;
 
-    --blue-light: #edf7ff;
+    --blue-dark: #0909a8;
 
-    --text: #2f3941;
+    --blue-light: #f0f0ff;
 
-    --text-light: #68737d;
+    --text: #30303a;
 
-    --border: #e9ebed;
+    --text-light: #6d6d78;
+
+    --border: #d5d5ff;
 
     --background: #ffffff;
 
-    --background-light: #f8f9f9;
+    --background-light: #f7f7ff;
 
     --radius: 8px;
 
@@ -134,7 +136,7 @@ input {
 
     border-radius: 6px;
 
-    background: #1f73b7;
+    background: var(--blue);
 
     color: white;
 
@@ -216,11 +218,11 @@ input {
 .hero {
 
     background:
-
         linear-gradient(
             135deg,
-            #03363d,
-            #17494d
+            #1111c9 0%,
+            #1b18f5 50%,
+            #1717e8 100%
         );
 
     color: white;
