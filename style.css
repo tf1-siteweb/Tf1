@@ -827,3 +827,17 @@ main {
   }
 
 }
+
+/* =========================================
+   SUPPRESSION DU CHATBOT / WIDGET ZENDESK
+   On conserve uniquement Tidio
+========================================= */
+
+#launcher,
+iframe[title*="Zendesk"],
+iframe[title*="zendesk"],
+.zendesk-widget,
+[data-garden-id="buttons.icon_button"] {
+    display: none !important;
+    visibility: hidden !important;
+}
