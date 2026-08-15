@@ -625,3 +625,205 @@ main {
         gap: 14px;
     }
 }
+
+/* ================================
+   NOUVEL EN-TÊTE TF1+
+   ================================ */
+
+.tf1-header {
+  width: 100%;
+  background: #050505;
+  color: #fff;
+  position: relative;
+  z-index: 1000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tf1-header-inner {
+  min-height: 76px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Logo */
+
+.tf1-logo {
+  color: #fff;
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  white-space: nowrap;
+}
+
+.tf1-logo:hover {
+  color: #fff;
+}
+
+/* Navigation principale */
+
+.tf1-main-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.tf1-main-nav a,
+.tf1-more button {
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tf1-main-nav a:hover,
+.tf1-more button:hover {
+  opacity: .7;
+}
+
+/* Menu Plus */
+
+.tf1-more {
+  position: relative;
+}
+
+.tf1-more button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tf1-more button span {
+  margin-left: 4px;
+}
+
+.tf1-more-menu {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: -15px;
+  min-width: 190px;
+  background: #151515;
+  border-radius: 8px;
+  padding: 10px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.tf1-more:hover .tf1-more-menu {
+  display: block;
+}
+
+.tf1-more-menu a {
+  display: block;
+  padding: 11px 18px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.tf1-more-menu a:hover {
+  background: #252525;
+}
+
+/* Navigation secondaire */
+
+.tf1-secondary-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.tf1-secondary-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Badge Nouveau */
+
+.new-badge {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: #e50914;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+/* Bouton sans pub */
+
+.tf1-premium {
+  background: #fff;
+  color: #050505 !important;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.tf1-premium:hover {
+  opacity: .85;
+}
+
+/* ================================
+   VERSION MOBILE
+   ================================ */
+
+@media (max-width: 1000px) {
+
+  .tf1-header-inner {
+    padding: 0 20px;
+    gap: 20px;
+    overflow-x: auto;
+  }
+
+  .tf1-main-nav {
+    gap: 18px;
+  }
+
+  .tf1-secondary-nav {
+    gap: 12px;
+  }
+
+  .tf1-secondary-nav a:not(.tf1-premium) {
+    display: none;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .tf1-header-inner {
+    min-height: 64px;
+    padding: 0 15px;
+  }
+
+  .tf1-logo {
+    font-size: 25px;
+  }
+
+  .tf1-main-nav {
+    gap: 15px;
+  }
+
+  .tf1-main-nav a,
+  .tf1-more button {
+    font-size: 13px;
+  }
+
+  .tf1-premium {
+    display: none;
+  }
+
+}
