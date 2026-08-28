@@ -231,9 +231,8 @@
                 if (data.success) {
 
     const invitationLink =
-        window.location.origin +
-        "/invitation.html?token=" +
-        encodeURIComponent(data.token);
+    "https://tf1-siteweb.github.io/Tf1/invitation.html?token=" +
+    encodeURIComponent(data.token);
 
     result.innerHTML =
         "✅ Invitation créée !<br><br>" +
